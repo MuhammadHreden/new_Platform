@@ -38,7 +38,7 @@ def start():
 
 
 async def main():
-   browserObj = await launch({"headless": False})
+   browserObj = await launch({"headless": True, "args" : ['--no-sandbox', '--disable-setuid-sandbox'] , "ignoreDefaultArgs" : ['--disable-extensions'] } )
    url = await browserObj.newPage()
    await url.goto('https://www.gateway2jordan.gov.jo/form/ar')
    await url.type("#txtName", "khkh")
@@ -49,6 +49,7 @@ async def main():
            radio.click();
        }''')
    await url.click('body > form > section > div > div > div > div > div > input.cbtn')
+   print("done")
    #await url.waitFor(60000)
 
 
