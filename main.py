@@ -3,9 +3,10 @@ from pyppeteer import launch
 import pandas as pd
 import datetime
 
+
 async def execute():
    file = pd.read_csv(r'final.csv', header=0)
-   browserObj = await launch({"headless": False})
+   browserObj = await launch({"headless": True, "args" : ['--no-sandbox', '--disable-setuid-sandbox'] , "ignoreDefaultArgs" : ['--disable-extensions'] } )
    url = await browserObj.newPage()
    for i in range(len(file.index)):
       await url.goto('https://visitjordan.gov.jo/travelcars/')
@@ -38,18 +39,27 @@ def start():
 
 
 async def main():
-   browserObj = await launch({"headless": True, "args" : ['--no-sandbox', '--disable-setuid-sandbox'] , "ignoreDefaultArgs" : ['--disable-extensions'] } )
+   browserObj = await launch(args= ["--proxy-server='direct://'", '--proxy-bypass-list=*','--no-sandbox', '--disable-setuid-sandbox'] , ignoreDefaultArgs= ['--disable-extensions'])
+   print(1)
    url = await browserObj.newPage()
-   await url.goto('https://www.gateway2jordan.gov.jo/form/ar')
+   print(2)
+   await url.setUserAgent(
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36")
+   print(3)
    await url.type("#txtName", "khkh")
+   print(4)
    await url.select('[name=ddlNationality]', "11")
+   print(5)
    await url.waitForSelector('#rbvaction')
+   print(6)
    await url.evaluate('''() => {
            let radio = document.querySelector('#rbvaction');
            radio.click();
        }''')
-   await url.click('body > form > section > div > div > div > div > div > input.cbtn')
-   print("done")
+   print(7)
+   #await url.click('body > form > section > div > div > div > div > div > input.cbtn')
+   print(8)
+   await browserObj.close()
    #await url.waitFor(60000)
 
 
