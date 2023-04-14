@@ -39,7 +39,7 @@ def start():
 
 
 async def main():
-   browserObj = await launch(args= ["--proxy-server='direct://'", '--proxy-bypass-list=*','--no-sandbox', '--disable-setuid-sandbox'] , ignoreDefaultArgs= ['--disable-extensions'])
+   browserObj = await launch(headless = False)#args= ["--proxy-server='direct://'", '--proxy-bypass-list=*','--no-sandbox', '--disable-setuid-sandbox'] , ignoreDefaultArgs= ['--disable-extensions'])
    print(1)
    url = await browserObj.newPage()
    print(2)
